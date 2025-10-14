@@ -1,7 +1,9 @@
-const artistsUrl = "https://ws.audioscrobbler.com/2.0/";
+/** @format */
+
+const artistsUrl = "https://ws.audioscrobbler.com/2.0/?";
 
 // link to the button var
-const searchInput = document.getElementbyId("PUT_ID_HERE");
+// const searchInput = document.getElementbyId("PUT_ID_HERE");
 
 /**
  *  Function takes in search string
@@ -9,42 +11,38 @@ const searchInput = document.getElementbyId("PUT_ID_HERE");
  *  returns a list of objects [{artist data}]
  */
 
+console.log("Test");
 
 function sendFetchRequest() {
-    // const search = searchInput.value;
-    const search = "Wheezer";
-    //send get request to the api
-    const params = new URLSearchParams({
-        method: "artist.search",
-        artist: search,
-        api_key: "db5ec8550e5bf1c9af19499c1651ad36",
-        format:"json"
+  // const search = searchInput.value;
+  const search = "Wheezer";
+  //send get request to the api
+  const params = new URLSearchParams({
+    method: "artist.search",
+    artist: search,
+    api_key: "db5ec8550e5bf1c9af19499c1651ad36",
+    format: "json",
+  });
+
+  const data = fetch(artistsUrl + params)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Artist not found");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data.results.artistmatches);
+    })
+    .catch((error) => {
+      console.error("Error:", error.message);
+      updateResponseDisplay("Error:" + error.message);
     });
 
-    const data = fetch(url+params)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error ("Artist not found");
-            }
-            return response.json();
-         })
-
-         .then((data) => {
-            // renderArtists(data);
-         })
-         
-         .catch((error) => {
-            console.error("Error:", error.message);
-            updateResponseDisplay("Error:" + error.message);
-        });
-
-
-    console.log(data);
-
-
-    // responseOutput.textContent = 
+  // responseOutput.textContent =
 }
 
+sendFetchRequest();
 
 // Function to update the response display area
 // function updateResponseDisplay(content) {
@@ -55,7 +53,7 @@ function sendFetchRequest() {
 // // Fetch request using the Fetch API
 // function sendFetchRequest() {
 //     const username = document.getElementById("username").value;
-    
+
 //     if (username) {
 //         const url = `https://api.github.com/users/${username}/repos`;
 
