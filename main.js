@@ -3,7 +3,9 @@
 const artistsUrl = "https://ws.audioscrobbler.com/2.0/?";
 
 // link to the button var
-// const searchInput = document.getElementbyId("PUT_ID_HERE");
+const searchInput = document.getElementById("search");
+
+searchInput.addEventListener("blur", (e) => sendFetchRequest(e))
 
 /**
  *  Function takes in search string
@@ -11,11 +13,14 @@ const artistsUrl = "https://ws.audioscrobbler.com/2.0/?";
  *  returns a list of objects [{artist data}]
  */
 
-console.log("Test");
-
 function sendFetchRequest() {
-  // const search = searchInput.value;
-  const search = "Wheezer";
+  //Make sure there is an actual search
+  const search = searchInput.value; //input
+
+  //make sure its not empty
+  if(search.trim() == "") return;
+    
+
   //send get request to the api
   const params = new URLSearchParams({
     method: "artist.search",
@@ -24,12 +29,12 @@ function sendFetchRequest() {
     format: "json",
   });
 
+
   const data = fetch(artistsUrl + params)
     .then((response) => {
-      if (!response.ok) {
-        throw new Error("Artist not found");
-      }
+      // console.log(response.json())
       return response.json();
+
     })
     .then((data) => {
       console.log(data.results.artistmatches);
@@ -42,7 +47,7 @@ function sendFetchRequest() {
   // responseOutput.textContent =
 }
 
-sendFetchRequest();
+// sendFetchRequest();
 
 // Function to update the response display area
 // function updateResponseDisplay(content) {
