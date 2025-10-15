@@ -1,6 +1,7 @@
 /** @format */
 
 const fmUrl = "https://ws.audioscrobbler.com/2.0/?";
+const fmKey = "db5ec8550e5bf1c9af19499c1651ad36";
 
 const main = document.getElementsByTagName("main").item(0);
 const searchIn = document.getElementById("search");
@@ -44,11 +45,11 @@ async function GetArtist(event) {
     method: "artist.search",
     artist: search,
     limit: 15,
-    api_key: "db5ec8550e5bf1c9af19499c1651ad36",
+    api_key: fmKey,
     format: "json",
   });
 
-  // const res = await fetch(artistsUrl + params);  //live api fetch
+  // const res = await fetch(artistsUrl + params);  //live api fetch <================================
   const res = await fetch("artistSearch.json"); //test fetch json
   const data = await res.json();
 
@@ -110,6 +111,38 @@ async function GetArtistPage(event) {
   const tracks = await GetArtistTopAlbums(artistName);
 
   // TODO: put data into html page
+  RenderArtistPage(tags, tracks);
+}
+
+/**
+ * @todo Get the artist tags to display in list. 
+ * @todo Add artist name and listens to page
+ * @todo get artist img?
+ * @param {*} tags 
+ * @param {*} tracks 
+ */
+function RenderArtistPage(tags, tracks) {
+  const container = document.createElement("div");
+  // const tagUl = document.createElement("ul");
+  const trackUl = document.createElement("ul");
+
+  for (el of tracks) {
+    const li = document.createElement("li");
+    const img = document.createElement("img");
+    img.src = el.image[2]["#text"];
+    const h3 = document.createElement("h3");
+    h3.innerText = el.name;
+    const p = document.createElement("p");
+    p.innerText = "Playcount: " + el.playcount;
+
+    li.appendChild(img);
+    li.appendChild(h3);
+    li.appendChild(p);
+    trackUl.appendChild(li);
+  }
+
+  container.appendChild(trackUl);
+  main.replaceChildren(container);
 }
 
 /**
@@ -123,14 +156,13 @@ async function GetArtistTopAlbums(artistName) {
     method: "artist.gettopalbums",
     artist: artistName,
     limit: 20,
-    api_key: "db5ec8550e5bf1c9af19499c1651ad36",
+    api_key: fmKey,
     format: "json",
   });
 
-  // const data = await GetFetch(fmUrl + params);
+  // const data = await GetFetch(fmUrl + params); //live api fetch <================================
   const data = await GetFetch("artistTopAlbums.json"); //test fetch json
   const { album } = data.topalbums;
-  console.log(album);
   return album;
 }
 
@@ -145,11 +177,11 @@ async function GetArtistTags(artistName) {
     method: "artist.gettoptags",
     artist: artistName,
     limit: 20,
-    api_key: "db5ec8550e5bf1c9af19499c1651ad36",
+    api_key: fmKey,
     format: "json",
   });
 
-  // const data = await GetFetch(fmUrl + params);
+  // const data = await GetFetch(fmUrl + params); //live api fetch <================================
   const data = await GetFetch("artistTopTags.json"); //test fetch json
 
   const { tag } = data.toptags;
