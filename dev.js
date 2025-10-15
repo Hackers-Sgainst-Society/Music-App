@@ -14,6 +14,7 @@ searchIn.addEventListener("keydown", (e) => GetArtist(e));
  * @returns awaitable json parsed data
  */
 const GetFetch = async (url) => {
+  // TODO: Error handling
   const res = await fetch(url);
   const data = await res.json();
   return data;
@@ -49,9 +50,8 @@ async function GetArtist(event) {
     format: "json",
   });
 
-  // const res = await fetch(artistsUrl + params);  //live api fetch <================================
-  const res = await fetch("artistSearch.json"); //test fetch json
-  const data = await res.json();
+  // const res = await GetFetch(artistsUrl + params);  //live api fetch <================================
+  const data = await GetFetch("artistSearch.json"); //test fetch json
 
   //Array of matching artists
   const { artist } = data.results.artistmatches;
@@ -110,9 +110,15 @@ async function GetArtistPage(event) {
   //get artist top albums (its tracks really?)
   const tracks = await GetArtistTopAlbums(artistName);
 
+  // get similar artists
+  const artsim = await GetArtistSimilar(artistName);
+
+  //here
+  const artistInfo = await GetArtistInfo(artistName)
+
   // TODO: put data into html page
-  RenderArtistPage(tags, tracks);
-}
+  RenderArtistPage(tags, tracks, artsim, artistInfo, artistName);
+} 
 
 /**
  * @todo Get the artist tags to display in list. 
@@ -121,11 +127,12 @@ async function GetArtistPage(event) {
  * @param {*} tags 
  * @param {*} tracks 
  */
-function RenderArtistPage(tags, tracks) {
+function RenderArtistPage(tag, tracks, artsim, artistInfo, artistName) {
   const container = document.createElement("div");
   // const tagUl = document.createElement("ul");
+  
+  // Generate HTML for artists tracks
   const trackUl = document.createElement("ul");
-
   for (el of tracks) {
     const li = document.createElement("li");
     const img = document.createElement("img");
@@ -141,7 +148,26 @@ function RenderArtistPage(tags, tracks) {
     trackUl.appendChild(li);
   }
 
+  //Generate HTML for similar artists
+  const artistSimUl = document.createElement("ul");
+  for (el of artsim) {
+    const li = document.createElement("li");
+    li.innerText = el.name
+    artistSimUl.appendChild(li);
+  }
+  
+  //Generate HTML for artist bio
+  const artistSum = document.createElement("p");
+  artistSum.innerHTML = "Artist Summary:" + artistInfo;
+  
+  //Generate HTML for artist name
+  const artistNameH1 = document.createElement("h1");
+  artistNameH1.innerText = artistName;
+
+  container.appendChild(artistNameH1);
+  container.appendChild(artistSum);
   container.appendChild(trackUl);
+  container.appendChild(artistSimUl);
   main.replaceChildren(container);
 }
 
@@ -186,4 +212,37 @@ async function GetArtistTags(artistName) {
 
   const { tag } = data.toptags;
   return tag;
+}
+
+// down here
+// async function that takes in artist name -> gets similar artists
+async function GetArtistSimilar(artistName) {
+  const params = new URLSearchParams({
+    method: "artist.getsimilar",
+    artist: artistName,
+    limit: 5,
+    api_key: fmKey,
+    format: "json",
+  });
+
+  // const data = await GetFetch(fmUrl + params); //live api fetch <================================
+  const data = await GetFetch("artistSimilar.json"); //test fetch json
+  
+  const { artist } = data.similarartists; //got the data
+  return artist;
+}
+
+async function GetArtistInfo(artistName) {
+  const params = new URLSearchParams({
+    method: "artist.getinfo",
+    artist: artistName,
+    api_key: fmKey,
+    format: "json",
+  });
+
+  // const data = await GetFetch(fmUrl + params); //live api fetch <================================
+  const data = await GetFetch("artistInfo.json"); //test fetch json
+  // new zoom link btw
+  const { summary } = data.artist.bio; //got the data
+  return summary;
 }
