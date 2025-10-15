@@ -38,6 +38,7 @@ function sendFetchRequest() {
     })
     .then((data) => {
       console.log(data.results.artistmatches);
+    //   Show output to what their response object is
     })
     .catch((error) => {
       console.error("Error:", error.message);
