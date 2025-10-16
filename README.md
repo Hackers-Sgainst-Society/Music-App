@@ -18,15 +18,15 @@ A responsive web application that allows users to search for music artists and e
 ## Project Structure
 
 music-app/
-- │
-- ├── .vscode
-- │    └── settings.json
-- ├──README.md
-- ├── index.html # Main HTML page
-- ├── main.css # Application styles
-- ├── dev.js # JavaScript logic and API integration
-- └── public/
--     └── no-img.png # Default fallback image
+│\
+├── .vscode\
+│    └── settings.json\
+├──README.md\
+├── index.html # Main HTML page\
+├── main.css # Application styles\
+├── dev.js # JavaScript logic and API integration\
+├── public/\
+│   └── no-img.png # Default fallback image\
 
 ## Getting Started
 
