@@ -245,8 +245,8 @@ async function ArtistClick(event) {
   // Get and format name from parent Li
   const artistName = event.target
     .closest("li")
-    .name.split(",")[0]
-    .split("&")[0]
+    .name // .name.split(",")[0]
+    // .split("&")[0]
     .trim()
     .toLowerCase();
 
@@ -266,27 +266,32 @@ async function SimilarLiClick(event) {
 }
 
 async function GetTopArtist() {
-
- const params = new URLSearchParams({
-    method: "artist.gettopartists",
-    // limit: 10,
+  const params = new URLSearchParams({
+    method: "chart.gettopartists",
+    limit: 44,
     api_key: fmKey,
     format: "json",
   });
 
-  const data = await GetFetch (fmUrl + params);
+  const data = await GetFetch(fmUrl + params);
   const { artist } = data.artists;
 
   return artist;
 }
 
-function RenderHomePage(TopArtist) {  
+function RenderHomePage(topArtist) {
   //make the ul element
+  const container = document.createElement("div");
+  const h1 = document.createElement("h1");
+  h1.style = "text-align:center; padding-top:1rem";
+  h1.innerText = "Top Artists";
   const ul = document.createElement("ul");
-  
+  ul.addEventListener("click", (e) => ArtistClick(e));
+
   //loop over the array and turn into li
   for (el of topArtist) {
     const li = document.createElement("li");
+    li.name = el.name;
     const h3 = document.createElement("h3");
     h3.innerText = el.name;
     const p = document.createElement("p");
@@ -294,20 +299,18 @@ function RenderHomePage(TopArtist) {
 
     li.appendChild(h3);
     li.appendChild(p);
-    // li
-    
-    ul.appendChild(li)
-    // ul
+    ul.appendChild(li);
   }
 
-  main.replaceChildren(ul)
+  container.appendChild(h1);
+  container.appendChild(ul);
 
+  main.replaceChildren(container);
 }
 
-const onLoad = async() => {
+const onLoad = async () => {
   const topData = await GetTopArtist();
   RenderHomePage(topData);
-
-}
+};
 
 onLoad();
