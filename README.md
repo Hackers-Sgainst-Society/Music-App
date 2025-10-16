@@ -17,7 +17,7 @@ A responsive web application that allows users to search for music artists and e
 
 ## Project Structure
 
-music-app/
+music-app/\
 │\
 ├── .vscode\
 │    └── settings.json\
