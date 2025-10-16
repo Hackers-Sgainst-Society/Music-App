@@ -264,3 +264,50 @@ async function SimilarLiClick(event) {
 
   GetArtistPage(name);
 }
+
+async function GetTopArtist() {
+
+ const params = new URLSearchParams({
+    method: "artist.gettopartists",
+    // limit: 10,
+    api_key: fmKey,
+    format: "json",
+  });
+
+  const data = await GetFetch (fmUrl + params);
+  const { artist } = data.artists;
+
+  return artist;
+}
+
+function RenderHomePage(TopArtist) {  
+  //make the ul element
+  const ul = document.createElement("ul");
+  
+  //loop over the array and turn into li
+  for (el of topArtist) {
+    const li = document.createElement("li");
+    const h3 = document.createElement("h3");
+    h3.innerText = el.name;
+    const p = document.createElement("p");
+    p.innerText = "Listeners: " + el.listeners;
+
+    li.appendChild(h3);
+    li.appendChild(p);
+    // li
+    
+    ul.appendChild(li)
+    // ul
+  }
+
+  main.replaceChildren(ul)
+
+}
+
+const onLoad = async() => {
+  const topData = await GetTopArtist();
+  RenderHomePage(topData);
+
+}
+
+onLoad();
