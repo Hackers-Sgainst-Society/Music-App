@@ -69,8 +69,10 @@ function RenderAritsts(artists) {
 
   if (artists.length == 0) {
     const h2 = document.createElement("h2");
+    h2.style = "font-size:6rem;";
     h2.innerText = "No artists found!";
-    container.appendChild(h2);
+    main.replaceChildren(h2);
+    return;
   } else {
     for (el of artists) {
       const li = document.createElement("li");

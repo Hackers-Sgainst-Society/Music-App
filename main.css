@@ -18,21 +18,32 @@ body {
 
 /* Navbar */
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 2rem;
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: space-between; */
+  display: grid;
+  grid-template-columns: 100px 1fr 100px;
+  gap: 0.75rem;
+  /* padding: 1rem 2rem; */
   background-color: #181818;
-  border-bottom: 1px solid #282828;
+  /* border-bottom: 1px solid #282828; */
+  height: 100px;
   position: sticky;
   top: 0;
   z-index: 1000;
+  /* justify-items: center; */
+  align-items: center;
+  overflow: hidden;
 }
 
 .logo {
   font-size: 1.5rem;
+  height: 4rem;
+  width: 4rem;
+
   font-weight: 700;
   color: #5d55ad;
+  fill: #5d55ad;
 }
 
 .search-bar {
@@ -41,6 +52,8 @@ body {
   background-color: #f3f6f7;
   border-radius: 2rem;
   padding: 0.3rem 0.6rem;
+  place-self: center;
+  justify-self: center;
   transition: background-color 0.3s ease;
 }
 
@@ -51,15 +64,15 @@ body {
 .search-bar input {
   background: transparent;
   border: none;
-  color: #fff;
+  color: #000;
   padding: 0.4rem 0.8rem;
   outline: none;
-  width: 150px;
+  width: 200px;
   transition: width 0.3s ease;
 }
 
 .search-bar input:focus {
-  width: 200px;
+  width: 250px;
 }
 
 .search-bar button {
@@ -127,7 +140,7 @@ li img {
 /* Main Section (dynamic results) */
 main {
   flex: 1;
-  padding: 2rem;
+  /* padding: 2rem; */
 }
 
 /* Footer */
@@ -144,8 +157,8 @@ footer {
 
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    align-items: flex-start;
+    display: grid;
+    /* grid: auto 1fr auto; */
     gap: 0.75rem;
   }
 
@@ -158,13 +171,11 @@ footer {
   }
 }
 
-
 @media (min-width: 769px) and (max-width: 1024px) {
   ul {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
 }
-
 
 @media (min-width: 1025px) {
   ul {
@@ -177,7 +188,9 @@ footer {
 }
 
 /* Smooth transitions for everything */
-button, input, li {
+button,
+input,
+li {
   transition: all 0.25s ease;
 }
 
@@ -189,6 +202,7 @@ button, input, li {
   max-width: 1200px;
   height: 100%;
   gap: 1rem;
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 .artist-info-container {
@@ -196,6 +210,7 @@ button, input, li {
   flex-direction: column;
   gap: 1rem;
   padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.25);
 }
 
 .artist-title {
@@ -219,10 +234,10 @@ button, input, li {
 }
 
 .artist-tag {
-  background-color: #bbb;
-  padding: 0.5rem;
+  /* background-color: #bbb; */
+  /* padding: 0.5rem; */
   font-size: 1rem;
-  border-radius: 0.75rem;
+  /* border-radius: 0.75rem; */
 }
 
 .track-list {
@@ -234,8 +249,8 @@ button, input, li {
 
 .track-item {
   display: flex;
-  width: 186px;
-  height: 250px;
+  width: 178px;
+  height: 256px;
   flex-direction: column;
   overflow: hidden;
   background-color: #333;
@@ -243,6 +258,7 @@ button, input, li {
   border-radius: 0.5rem;
   color: white;
   gap: 0.1rem;
+  cursor: auto;
 }
 
 .track-img {
@@ -258,7 +274,6 @@ button, input, li {
   height: 100%;
   text-wrap: wrap;
   text-overflow: ellipsis;
-  /* Needed to make it work */
   overflow: hidden;
 }
 
@@ -267,7 +282,7 @@ button, input, li {
   font-size: 0.75rem;
 }
 
-.similar-list {
+/* .similar-list {
   display: flex;
   font-size: 1.5rem;
-}
+} */
